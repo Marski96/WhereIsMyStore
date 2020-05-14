@@ -1,19 +1,25 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+
+import LoadingScreen from './screens/LoadingScreen';
+import LoginScreen from './screens/LoginScreen';
+import ShoppingListScreen from './screens/ShoppingListScreen';
+
+import * as firebase from 'firebase';
+import { firebaseConfig } from './firebase/firebaseConfig'
+firebase.initializeApp(firebaseConfig)
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
+    <AppNavigator />
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const AppSwitchNavigator = createSwitchNavigator({
+  LoadingScreen: LoadingScreen,
+  LoginScreen: LoginScreen,
+  ShoppingListScreen: ShoppingListScreen,
+})
+
+const AppNavigator = createAppContainer
+(AppSwitchNavigator)
