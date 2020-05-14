@@ -111,7 +111,7 @@ class LoginScreen extends Component {
                 <Text style={styles.body}>
                     Please login:
                 </Text>
-                <TouchableOpacity style={styles.googleLogIn}>
+                <TouchableOpacity style={styles.googleLogIn} onPress={() => this.signInWithGoogleAsync()}>
                     <Image style={styles.picture} source={require("../google/img/login.png")}/>
                 </TouchableOpacity>
             </View>
