@@ -5,6 +5,7 @@ import LoadingScreen from './screens/LoadingScreen';
 import LoginScreen from './screens/LoginScreen';
 import ShoppingListScreen from './screens/ShoppingListScreen';
 
+
 import * as firebase from 'firebase';
 import { firebaseConfig } from './firebase/firebaseConfig'
 firebase.initializeApp(firebaseConfig)
@@ -23,3 +24,6 @@ const AppSwitchNavigator = createSwitchNavigator({
 
 const AppNavigator = createAppContainer
 (AppSwitchNavigator)
+
+
+

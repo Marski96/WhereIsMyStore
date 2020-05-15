@@ -1,81 +1,69 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, FlatList, ImageBackground } from 'react-native';
 import { render } from 'react-dom';
-import firebase from 'firebase'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class ShoppingList extends React.Component {
     constructor(props) {
         super(props);   
         this.state = {
-            products: [],
-            product: '',
+            value1: '',
+            ShoppingList: [],
         }
     }
-    
-    componentWillMount() {
-        const ref = firebase.database().ref('products/')
-          ref.orderByChild('item').on('child_added', snapshot => {
-              this.state.products.push({
-                  id: snapshot.key,
-                  item: snapshot.val().item
-              });
-          }); 
-    }
-
-    readDataInFirebase = () => {
-        const ref = firebase.database().ref('products/')
-
-        ref.orderByChild('products').on('child_added', snapshot => {
-          this.state.highScoreList.push({
-            id: snapshot.key,
-            item: snapshot.val().item,   
-          });
-        });
-      }
 
     buttonAdd = () => {
-        firebase.database().ref('products/').push(
-            {
-                item: this.state.product
-            }
-        ).then(() => {
-            console.log('Data added to database');
-        }).catch((e) => {
-            console.log('Error occurred', e)
-        }) 
+
+        const formShoppingListdata = this.state.value1
+        this.setState({
+            ShoppingList: [...this.state.ShoppingList, formShoppingListdata]
+        })
+        
     }
 
+    //set new empty array
     buttonClear = () => {
-        console.log(this.state.products)
+        this.setState({
+            ShoppingList: [],
+        })
+
     }
+
     render() {
         return(   
 
             <View style={{flex: 1 , paddingTop: 100, position: 'absolute', alignItems: 'center', alignContent: 'center', alignSelf:'center'}}>
-                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                        <TextInput 
-                            style={{width: 250, borderColor: 'gray', borderWidth: 1, padding: 15}}
-                            value={this.state.product}
-                            onChangeText={product => this.setState({ product })}
-                        />
+                <TextInput 
+                    style={{width: 200, borderColor: 'gray', borderWidth: 1}}
+                    value={this.state.value1}
+                    onChangeText={value1 => this.setState({ value1 })}
+                />
 
-                        <View style={{paddingLeft: 5,paddingTop: 5, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-                            <Button
-                                style={{flexDirection: 'row', alignItems: 'center', }}
-                                onPress={this.buttonAdd} title='Add item'/>
-                            
-                            <Button
-                                style={{flexDirection: 'row', alignItems: 'center' }}
-                                onPress={this.buttonClear} title='Clear items'/> 
+                <View style={{flex: 1, flexDirection: 'row', alignItems: 'flex-end', paddingBottom: 40, paddingTop: 10 }}>
+                    <Button
+                        style={{flexDirection: 'row', alignItems: 'center' }}
+                        onPress={this.buttonAdd} title='Add'/>
+                    
+                    <Button
+                        style={{flexDirection: 'row', alignItems: 'center'}}
+                        onPress={this.buttonClear} title='Clear all'/> 
+                        
+                </View>
+                
+                <Text style={{color: 'blue', fontSize: 20, textAlign: 'center', paddingBottom: 20, textDecorationLine:'underline'}}>
+                    Shopping List
+                </Text>
+                <FlatList
+                    style={{fontSize: 16, alignSelf: 'center'}}
+                    data={this.state.ShoppingList}
+                    renderItem={({item}) =>
+                    
+                        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 5 }}>
+                            <Text style={{fontSize: 20}}>{item}</Text>
                         </View>
+                    }
+                />
 
-                        <Text style={{color: 'blue', fontSize: 18, textAlign: 'center', paddingBottom: 10, paddingTop: 25, alignItems: 'flex-start'}}>
-                            Shopping List
-                        </Text>
-
-                        {this.state.products.map( item => <Text key = {item.key} style = {{textAlign: 'center', marginBottom: 10}}>{item.item}</Text>)}
-
-                    </View>
             </View> 
         );   
     }

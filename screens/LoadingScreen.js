@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 
 import firebase from 'firebase';
 
-
 class LoadingScreen extends Component {
 
 
@@ -37,7 +36,7 @@ class LoadingScreen extends Component {
     }
 }
 
-export  default LoadingScreen;
+export default LoadingScreen;
 
 const styles = StyleSheet.create({
   container: {
